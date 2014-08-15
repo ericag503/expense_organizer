@@ -18,8 +18,20 @@ describe Expense do
     test_category = Category.new({'name' => 'Food', 'budget' => 300.00})
     test_category.save
     Expense.expense_summary(test_expense.id, test_category.id)
-    binding.pry
     expenses = Category.category_expenses_list(test_category.id)
     expect(expenses).to eq [test_expense]
+  end
+
+  it 'associates categories with an expense and returns all categories associated with an expense' do
+    test_expense = Expense.new({'name' => 'Windex', 'company' => 'Target', 'amount' => 3.00, 'date' => '2014-08-16'})
+    test_expense.save
+    test_category = Category.new({'name' => 'Home', 'budget' => 300.00})
+    test_category.save
+    test_category1 = Category.new({'name' => 'Car', 'budget' => 150.00})
+    test_category1.save
+    Expense.expense_summary(test_expense.id, test_category.id)
+    Expense.expense_summary(test_expense.id, test_category1.id)
+    categories = Category.expenses_category_list(test_expense.id)
+    expect(categories).to eq [test_category, test_category1]
   end
 end
