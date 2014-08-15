@@ -46,4 +46,23 @@ class Expense
   def self.company_percentage_by_category(company_total, category_total)
     company_total / category_total
   end
+
+  def self.purchases_during_time(date1, date2)
+    results = DB.exec("SELECT * FROM expenses WHERE date BETWEEN '#{date1}' AND '#{date2}';")
+    purchases = []
+    results.each do |result|
+      new_expense = Expense.new(result)
+      purchases << new_expense
+    end
+    purchases
+  end
+
+  def self.budget_total(id)
+    results = DB.exec("SELECT budget FROM categories WHERE id = #{id};")
+    total = results.first['budget'].to_f
+  end
+
+  def self.budget_check(category_total, budget_total)
+    category_total >= budget_total
+  end
 end
