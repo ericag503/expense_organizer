@@ -25,4 +25,14 @@ class Category
     end
     categories_list
   end
+
+  def self.category_expenses_list(category_id)
+    results = DB.exec("SELECT expenses.* FROM categories JOIN expense_summary ON (categories.id = expense_summary.category_id) JOIN expenses ON (expense_summary.expense_id = expenses.id) WHERE categories.id = #{category_id};")
+    expenses_list = []
+    results.each do |result|
+      new_expense = Expense.new(result)
+      expenses_list << new_expense
+    end
+    expenses_list
+  end
 end

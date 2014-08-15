@@ -28,4 +28,9 @@ class Expense
     self.name == another_expense.name && self.company == another_expense.company && self.amount == another_expense.amount && self.date == another_expense.date && self.id == another_expense.id
   end
 
+  def self.expense_summary(expense_id, category_id)
+    results = DB.exec("INSERT INTO expense_summary (expense_id, category_id) VALUES (#{expense_id}, #{category_id}) RETURNING id;")
+    expense_summary_id = results.first['id']
+  end
+
 end

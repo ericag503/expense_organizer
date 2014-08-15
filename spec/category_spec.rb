@@ -11,4 +11,6 @@ describe Category do
     test_category.save
     expect(Category.all).to eq [test_category]
   end
+
+
 end
