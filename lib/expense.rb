@@ -33,4 +33,9 @@ class Expense
     expense_summary_id = results.first['id']
   end
 
+  def self.company_total(company)
+    results = DB.exec("SELECT SUM(amount) FROM expenses WHERE company = '#{company}';")
+    total = results.first['sum'].to_f
+  end
+
 end
