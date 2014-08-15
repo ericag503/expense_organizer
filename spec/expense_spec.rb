@@ -147,7 +147,6 @@ describe Expense do
     Expense.expense_summary(test_expense3.id, test_category.id)
     category_total = Expense.category_total(test_category.id)
     budget_total = Expense.budget_total(test_category.id)
-    binding.pry
     overbudget = Expense.budget_check(category_total, budget_total)
     expect(overbudget).to eq true
   end

@@ -45,4 +45,20 @@ class Category
     end
     categories_list
   end
+
+  def self.search_return_id(name)
+    results = DB.exec("SELECT id FROM categories WHERE name = '#{name}';")
+    @id = results.first['id'].to_i
+  end
+
+  def self.update_budget(category_id, new_budget)
+    DB.exec("UPDATE categories SET budget = #{new_budget} WHERE id = #{category_id};")
+    results = DB.exec("SELECT * FROM categories WHERE id = #{category_id};")
+    updated_category = []
+    results.each do |result|
+      new_category = Category.new(result)
+      updated_category << new_category
+    end
+    updated_category
+  end
 end
