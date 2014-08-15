@@ -2,6 +2,7 @@ require 'expense'
 require 'category'
 require 'expense_summary'
 require 'PG'
+require 'pry'
 
 DB = PG.connect({:dbname => 'expense_organizer_test'})
 

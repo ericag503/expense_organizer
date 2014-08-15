@@ -4,8 +4,28 @@ class Expense
   def initialize (attributes)
     @id = attributes['id'].to_i
     @name = attributes['name']
-    @name = attributes['company']
+    @company = attributes['company']
     @amount = attributes['amount'].to_f
     @date = attributes['date']
   end
+
+  def self.all
+    results = DB.exec("SELECT * FROM expenses;")
+    expense_list = []
+    results.each do |result|
+      new_expense = Expense.new(result)
+      expense_list << new_expense
+    end
+    expense_list
+  end
+
+  def save
+    results = DB.exec("INSERT INTO expenses (name, company, amount, date) VALUES ('#{name}', '#{company}', #{amount}, '#{date}') RETURNING id;")
+    @id = results.first['id'].to_i
+  end
+
+  def ==(another_expense)
+    self.name == another_expense.name && self.company == another_expense.company && self.amount == another_expense.amount && self.date == another_expense.date && self.id == another_expense.id
+  end
+
 end
