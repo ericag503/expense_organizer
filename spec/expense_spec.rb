@@ -78,4 +78,28 @@ describe Expense do
     category_total = Expense.category_total(test_category.id)
     expect(category_total).to eq 175.48
   end
+
+  it 'returns the percentage of each category spent at a particular company' do
+    test_expense = Expense.new({'name' => 'Desk', 'company' => 'Target', 'amount' => 99.99, 'date' => '2014-08-16'})
+    test_expense.save
+    test_expense1 = Expense.new({'name' => 'Tires', 'company' => 'Costco', 'amount' => 199.98, 'date' => '2014-08-17'})
+    test_expense1.save
+    test_expense2 = Expense.new({'name' => 'Groceries', 'company' => 'Target', 'amount' => 75.49, 'date' => '2014-08-20'})
+    test_expense2.save
+    test_expense3 = Expense.new({'name' => 'Laundry stuff', 'company' => 'Safeway', 'amount' => 21.99, 'date' => '2014-08-21'})
+    test_expense3.save
+    test_category = Category.new({'name' => 'Home', 'budget' => 300.00})
+    test_category.save
+    test_category1 = Category.new({'name' => 'Car', 'budget' => 150.00})
+    test_category1.save
+    Expense.expense_summary(test_expense.id, test_category.id)
+    Expense.expense_summary(test_expense.id, test_category1.id)
+    Expense.expense_summary(test_expense1.id, test_category1.id)
+    Expense.expense_summary(test_expense2.id, test_category.id)
+    Expense.expense_summary(test_expense3.id, test_category.id)
+    company_total = Expense.company_total('Target')
+    category_total = Expense.category_total(test_category.id)
+    percentage = Expense.company_percentage_by_category(company_total, category_total)
+    expect(percentage).to eq 0.8886413126044462
+  end
 end

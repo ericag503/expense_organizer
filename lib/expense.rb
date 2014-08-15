@@ -42,4 +42,8 @@ class Expense
     results = DB.exec("SELECT SUM(expenses.amount) FROM categories JOIN expense_summary ON (categories.id = expense_summary.category_id) JOIN expenses ON (expense_summary.expense_id = expenses.id) WHERE categories.id = #{category_id};")
     total = results.first['sum'].to_f
   end
+
+  def self.company_percentage_by_category(company_total, category_total)
+    company_total / category_total
+  end
 end
